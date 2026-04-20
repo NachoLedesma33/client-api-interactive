@@ -1,0 +1,11 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import CollectionsManager from '@/components/CollectionsManager.tsx';
+---
+
+<BaseLayout title="Collections - API Client">
+  <div class="max-w-5xl mx-auto">
+    <h1 class="text-2xl font-bold mb-6">Collections</h1>
+    <CollectionsManager client:only="react" />
+  </div>
+</BaseLayout>

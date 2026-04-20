@@ -1,0 +1,48 @@
+---
+interface Props {
+  title?: string;
+}
+
+const { title = "API Client - Mini Postman" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Interactive API Client like Mini Postman" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen flex flex-col bg-gray-50 text-gray-900">
+    <header class="bg-white border-b border-gray-200 px-6 py-4">
+      <nav class="flex items-center justify-between">
+        <a href="/" class="text-xl font-bold text-indigo-600">API Client</a>
+        <div class="flex gap-6">
+          <a href="/" class="text-gray-600 hover:text-indigo-600 transition-colors">Home</a>
+          <a href="/collections" class="text-gray-600 hover:text-indigo-600 transition-colors">Collections</a>
+          <a href="/environments" class="text-gray-600 hover:text-indigo-600 transition-colors">Envs</a>
+          <a href="/settings" class="text-gray-600 hover:text-indigo-600 transition-colors">Settings</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="flex-1 px-6 py-8">
+      <slot />
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 px-6 py-3 text-center text-sm text-gray-500">
+      <p>API Client v0.0.1 | <span id="db-status">Loading...</span></p>
+    </footer>
+
+    <script>
+      if (typeof window !== 'undefined') {
+        const statusEl = document.getElementById('db-status');
+        if (statusEl) {
+          statusEl.textContent = 'Ready';
+        }
+      }
+    </script>
+  </body>
+</html>
