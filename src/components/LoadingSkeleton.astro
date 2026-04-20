@@ -1,0 +1,75 @@
+---
+interface Props {
+  type?: 'sidebar' | 'editor' | 'response' | 'urlbar';
+}
+
+const { type = 'sidebar' } = Astro.props;
+---
+
+{type === 'sidebar' && (
+  <div class="w-64 h-full bg-gray-100 border-r border-gray-200 p-4">
+    <div class="animate-pulse space-y-3">
+      <div class="h-10 bg-gray-200 rounded"></div>
+      <div class="h-8 bg-gray-200 rounded w-3/4"></div>
+      <div class="h-8 bg-gray-200 rounded w-1/2"></div>
+      <div class="pt-4">
+        <div class="h-4 bg-gray-200 rounded w-20 mb-2"></div>
+        <div class="h-8 bg-gray-200 rounded mb-2"></div>
+        <div class="h-8 bg-gray-200 rounded mb-2"></div>
+        <div class="h-8 bg-gray-200 rounded w-3/4"></div>
+      </div>
+      <div class="pt-4">
+        <div class="h-4 bg-gray-200 rounded w-24 mb-2"></div>
+        <div class="h-8 bg-gray-200 rounded mb-2"></div>
+        <div class="h-8 bg-gray-200 rounded mb-2"></div>
+      </div>
+    </div>
+  </div>
+)}
+
+{type === 'urlbar' && (
+  <div class="bg-white border-b border-gray-200 p-4">
+    <div class="flex gap-2">
+      <div class="w-20 h-10 bg-gray-200 rounded animate-pulse"></div>
+      <div class="flex-1 h-10 bg-gray-200 rounded animate-pulse"></div>
+      <div class="w-20 h-10 bg-gray-200 rounded animate-pulse"></div>
+      <div class="w-20 h-10 bg-gray-200 rounded animate-pulse"></div>
+    </div>
+    <div class="mt-3 flex gap-4">
+      <div class="h-5 bg-gray-200 rounded w-16 animate-pulse"></div>
+      <div class="h-5 bg-gray-200 rounded w-20 animate-pulse"></div>
+    </div>
+  </div>
+)}
+
+{type === 'editor' && (
+  <div class="bg-white border-b border-gray-200">
+    <div class="px-4 py-2 flex gap-4 border-b border-gray-100">
+      <div class="h-6 bg-gray-200 rounded w-16 animate-pulse"></div>
+      <div class="h-6 bg-gray-200 rounded w-20 animate-pulse"></div>
+      <div class="h-6 bg-gray-200 rounded w-24 animate-pulse"></div>
+    </div>
+    <div class="p-4">
+      <div class="h-32 bg-gray-200 rounded animate-pulse"></div>
+    </div>
+  </div>
+)}
+
+{type === 'response' && (
+  <div class="flex-1 bg-gray-50">
+    <div class="px-4 py-2 bg-white border-b border-gray-200 flex items-center gap-4">
+      <div class="h-6 bg-gray-200 rounded w-16 animate-pulse"></div>
+      <div class="h-4 bg-gray-200 rounded w-12 animate-pulse"></div>
+      <div class="h-4 bg-gray-200 rounded w-20 animate-pulse"></div>
+    </div>
+    <div class="p-4">
+      <div class="h-4 bg-gray-200 rounded w-full mb-3 animate-pulse"></div>
+      <div class="h-4 bg-gray-200 rounded w-11/12 mb-3 animate-pulse"></div>
+      <div class="h-4 bg-gray-200 rounded w-3/4 mb-3 animate-pulse"></div>
+      <div class="h-4 bg-gray-200 rounded w-5/6 mb-3 animate-pulse"></div>
+      <div class="h-4 bg-gray-200 rounded w-full mb-3 animate-pulse"></div>
+      <div class="h-4 bg-gray-200 rounded w-2/3 animate-pulse"></div>
+      <div class="mt-8 h-32 bg-gray-200 rounded animate-pulse"></div>
+    </div>
+  </div>
+)}

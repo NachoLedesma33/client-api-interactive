@@ -9,11 +9,23 @@ export default defineConfig({
   output: 'server',
   adapter: node({ mode: 'standalone' }),
   integrations: [react(), tailwind()],
+  compressHTML: true,
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: 'viewport',
+  },
   vite: {
     resolve: {
       alias: {
         '@': '/src'
       }
-    }
+    },
+    optimizeDeps: {
+      include: ['react', 'react-dom', 'zustand', 'dexie', 'react-hook-form'],
+    },
+    build: {
+      cssMinify: true,
+      minify: 'terser',
+    },
   }
 });
