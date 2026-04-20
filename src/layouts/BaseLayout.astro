@@ -14,6 +14,14 @@ const { title = "API Client - Mini Postman" } = Astro.props;
     <meta name="description" content="Interactive API Client like Mini Postman" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
+    <script is:inline>
+      (function() {
+        const stored = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const isDark = stored === 'dark' || (!stored && prefersDark);
+        if (isDark) document.documentElement.classList.add('dark');
+      })();
+    </script>
   </head>
   <body class="min-h-screen flex flex-col bg-gray-50 text-gray-900">
     <header class="bg-white border-b border-gray-200 px-6 py-4">
