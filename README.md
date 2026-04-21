@@ -1,158 +1,158 @@
 # API Client - Mini Postman
 
-A lightweight, interactive API client built with Astro and React. Inspired by Postman, this application allows you to send HTTP requests, manage collections, and work with environment variables.
+Cliente API ligero e interactivo construido con Astro y React. Inspirado en Postman, esta aplicación te permite enviar solicitudes HTTP, gestionar colecciones y trabajar con variables de entorno.
 
-## Architecture
+## Arquitectura
 
-This project uses **Astro Islands** architecture for optimal performance:
+Este proyecto usa la arquitectura **Astro Islands** para un rendimiento óptimo:
 
-- **Static Shell**: The main layout and structure are rendered statically on the server
-- **React Islands**: Interactive components (RequestEditor, ResponsePanel, Sidebar) are hydrated on the client
-- **Partial Hydration**: Only necessary components load JavaScript, reducing initial bundle size
+- **Shell Estático**: El diseño principal y estructura se renderizan estáticamente en el servidor
+- **Islas React**: Componentes interactivos (RequestEditor, ResponsePanel, Sidebar) se hidratan en el cliente
+- **Hidratación Parcial**: Solo los componentes necesarios cargan JavaScript, reduciendo el tamaño inicial
 
-## Tech Stack
+## Tecnologías
 
-- **Framework**: Astro 6.x with SSR support
-- **UI**: React 19.x for interactive islands
-- **State Management**: Zustand 5.x
-- **Persistence**: Dexie (IndexedDB wrapper)
-- **Styling**: TailwindCSS 3.x
-- **HTTP Client**: Native fetch API
+- **Framework**: Astro 6.x con soporte SSR
+- **UI**: React 19.x para islas interactivas
+- **Gestión de Estado**: Zustand 5.x
+- **Persistencia**: Dexie (wrapper de IndexedDB)
+- **Estilos**: TailwindCSS 3.x
+- **Cliente HTTP**: API fetch nativa
 
-## Getting Started
+## Primeros Pasos
 
-### Installation
+### Instalación
 
 ```bash
 npm install
 ```
 
-### Development
+### Desarrollo
 
 ```bash
 npm run dev
 ```
 
-The application will be available at `http://localhost:4321`
+La aplicación estará disponible en `http://localhost:4321`
 
-### Production Build
+### Build de Producción
 
 ```bash
 npm run build
 ```
 
-Start the production server:
+Iniciar el servidor de producción:
 
 ```bash
 node dist/server/entry.mjs
 ```
 
-## Features
+## Características
 
-### Core Functionality
+### Funcionalidad Principal
 
-- Send HTTP requests (GET, POST, PUT, PATCH, DELETE)
-- Custom headers and body types (JSON, Form Data, x-www-form-urlencoded)
-- Response visualization with status, timing, and headers
-- Request history with grouping by date
+- Enviar solicitudes HTTP (GET, POST, PUT, PATCH, DELETE)
+- Encabezados personalizados y tipos de cuerpo (JSON, Form Data, x-www-form-urlencoded)
+- Visualización de respuestas con estado, tiempo y encabezados
+- Historial de solicitudes agrupado por fecha
 
-### Collections
+### Colecciones
 
-- Organize requests into collections
-- Drag and drop to move requests between collections
-- Import/Export collections as JSON
+- Organizar solicitudes en colecciones
+- Arrastrar y soltar para mover solicitudes entre colecciones
+- Importar/Exportar colecciones como JSON
 
-### Environment Variables
+### Variables de Entorno
 
-- Create multiple environments
-- Define variables like `{{baseUrl}}`, `{{apiKey}}`
-- Automatic variable substitution in requests
-- Preview how variables resolve
+- Crear múltiples entornos
+- Definir variables como `{{baseUrl}}`, `{{apiKey}}`
+- Sustitución automática de variables en solicitudes
+- Vista previa de cómo se resuelven las variables
 
-### Utilities
+### Utilidades
 
-- cURL import/export
-- OpenAPI 3.0 support
-- Postman collection import/export
-- Keyboard shortcuts (Ctrl+Enter to send, Ctrl+S to save)
+- Importar/Exportar cURL
+- Soporte OpenAPI 3.0
+- Importar/Exportar colecciones Postman
+- Atajos de teclado (Ctrl+Enter para enviar, Ctrl+S para guardar)
 
-### Export Options
+### Opciones de Exportación
 
-- Export responses as JSON
-- Export entire workspace
-- Import from JSON files
+- Exportar respuestas como JSON
+- Exportar todo el espacio de trabajo
+- Importar desde archivos JSON
 
-## Why Astro?
+## ¿Por qué Astro?
 
-### Performance
+### Rendimiento
 
-Astro's partial hydration means only interactive components load JavaScript. The sidebar and static elements render as pure HTML, while the request editor loads React only when needed.
+La hydratación parcial de Astro significa que solo los componentes interactivos cargan JavaScript. El sidebar y elementos estáticos se renderizan como HTML puro, mientras que el editor de solicitudes carga React solo cuando es necesario.
 
-### Developer Experience
+### Experiencia de Desarrollo
 
-- File-based routing
-- TypeScript support out of the box
-- Integrations for React, Tailwind, and more
+- Rutas basadas en archivos
+- TypeScript integrado
+- Integraciones para React, Tailwind y más
 
-### Flexibility
+### Flexibilidad
 
-Use `output: 'server'` for SSR endpoints or `output: 'static'` for pure static builds.
+Usa `output: 'server'` para endpoints SSR o `output: 'static'` para builds estáticos puros.
 
-## Usage Examples
+## Ejemplos de Uso
 
-### Sending a Request
+### Enviar una Solicitud
 
-1. Enter a URL in the address bar
-2. Select HTTP method (GET, POST, etc.)
-3. Add headers if needed
-4. Click "Send" or press Ctrl+Enter
-5. View response in the panel below
+1. Ingresa una URL en la barra de direcciones
+2. Selecciona el método HTTP (GET, POST, etc.)
+3. Agrega encabezados si es necesario
+4. Haz clic en "Send" o presiona Ctrl+Enter
+5. Ver la respuesta en el panel inferior
 
-### Using Variables
+### Usar Variables
 
-1. Create an environment in the Envs panel
-2. Add variables like `baseUrl: https://api.example.com`
-3. Use in requests as `{{baseUrl}}/endpoint`
-4. Variables resolve automatically when sending
+1. Crea un entorno en el panel de Envs
+2. Agrega variables como `baseUrl: https://api.example.com`
+3. Usa en solicitudes como `{{baseUrl}}/endpoint`
+4. Las variables se resuelven automáticamente al enviar
 
-### Importing cURL
+### Importar cURL
 
-1. Copy a cURL command from browser dev tools
-2. Click the "cURL" button in Headers editor
-3. Paste and parse the command
-4. Request is automatically created
+1. Copia un comando cURL de las herramientas de desarrollo del navegador
+2. Haz clic en el botón "cURL" en el editor de encabezados
+3. Pega y analiza el comando
+4. La solicitud se crea automáticamente
 
-## Keyboard Shortcuts
+## Atajos de Teclado
 
-| Shortcut | Action |
-|---------|--------|
-| Ctrl + Enter | Send request |
-| Ctrl + S | Save request |
-| Ctrl + N | New request |
-| Ctrl + H | Focus search |
-| F1 | Show shortcuts help |
-| Esc | Close modal |
+| Atajo | Acción |
+|-------|--------|
+| Ctrl + Enter | Enviar solicitud |
+| Ctrl + S | Guardar solicitud |
+| Ctrl + N | Nueva solicitud |
+| Ctrl + H | Enfocar búsqueda |
+| F1 | Mostrar ayuda de atajos |
+| Esc | Cerrar modal |
 
-## Project Structure
+## Estructura del Proyecto
 
 ```
 src/
-├── components/       # React UI components
-│   ├── request/     # Request editor components
-│   ├── response/    # Response panel components
-│   ├── sidebar/     # Sidebar components
-│   └── ui/          # Shared UI components
-├── layouts/         # Astro layouts
-├── pages/           # Astro pages
-│   ├── api/         # API endpoints
+├── components/       # Componentes UI de React
+│   ├── request/     # Componentes del editor de solicitudes
+│   ├── response/   # Componentes del panel de respuesta
+│   ├── sidebar/    # Componentes de la barra lateral
+│   └── ui/        # Componentes UI compartidos
+├── layouts/        # Layouts de Astro
+├── pages/          # Páginas de Astro
+│   ├── api/       # Endpoints de API
 │   ├── collections.astro
 │   ├── environments.astro
 │   └── index.astro
-├── store/           # Zustand stores
-├── types/           # TypeScript types
-└── utils/          # Utility functions
+├── store/          # Stores de Zustand
+├── types/         # Tipos de TypeScript
+└── utils/         # Funciones utilitarias
 ```
 
-## License
+## Licencia
 
-MIT
+MIT - Creado por Ignacio Ledesma © 2026 - Todos los derechos reservados
