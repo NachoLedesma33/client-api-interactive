@@ -99,10 +99,10 @@ export function EnvironmentsPanel() {
     const active = environments.find((e) => e.id === activeEnvId);
     if (!active) return previewText;
     
-    return previewText.replace(/\{\{(\w+)\}\}/g, (_, key) => {
-      const value = active.variables[key];
-      return value !== undefined ? value : `{{${key}}}`;
-    }));
+    return previewText.replace(/\{\{(\w+)\}\}/g, (_match: string, _key: string) => {
+      const value = active.variables[_key];
+      return value !== undefined ? value : `{{${_key}}}`;
+    });
   }, [previewText, activeEnvId, environments]);
 
   const selected = environments.find((e) => e.id === selectedId);

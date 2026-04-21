@@ -23,8 +23,8 @@ const { title = "API Client - Mini Postman" } = Astro.props;
       })();
     </script>
   </head>
-  <body class="min-h-screen flex flex-col bg-gray-50 text-gray-900">
-    <header class="bg-white border-b border-gray-200 px-6 py-4">
+  <body class="min-h-screen flex flex-col bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+    <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
       <nav class="flex items-center justify-between">
         <a href="/" class="text-xl font-bold text-indigo-600">API Client</a>
         <div class="flex gap-6">
@@ -40,8 +40,8 @@ const { title = "API Client - Mini Postman" } = Astro.props;
       <slot />
     </main>
 
-    <footer class="bg-white border-t border-gray-200 px-6 py-3 text-center text-sm text-gray-500">
-      <p>API Client v0.0.1 | <span id="db-status">Loading...</span></p>
+    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 px-6 py-3 text-center text-sm text-gray-500 dark:text-gray-400">
+      <p>API Client v0.0.1 | Creado por Ignacio Ledesma | Todos los derechos reservados &copy; 2026</p>
     </footer>
 
     <script>

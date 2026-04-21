@@ -33,7 +33,6 @@ export function RequestsHistory() {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const yesterday = new Date(today.getTime() - 24 * 60 * 60 * 1000);
-    const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
 
     const filtered = recentRequests.filter(
       (r) =>
@@ -77,77 +76,6 @@ export function RequestsHistory() {
   };
 
   const methodColors: Record<string, string> = {
-    GET: 'text-green-600',
-    POST: 'text-yellow-600',
-    PUT: 'text-blue-600',
-    PATCH: 'text-purple-600',
-    DELETE: 'text-red-600',
-  };
-
-  const renderGroup = (requests: Request[], title: string) => {
-    if (requests.length === 0) return null;
-
-    return (
-      <div className="mb-4">
-        <h3 className="text-xs font-semibold text-gray-500 uppercase mb-2 px-2">{title}</h3>
-        <ul className="space-y-1">
-          {requests.map((req) => (
-            <li
-              key={req.id}
-              draggable
-              onDragStart={(e) => handleDragStart(e, req)}
-              className="relative group"
-            >
-              <button
-                onClick={() => handleClick(req)}
-                className="w-full text-left px-2 py-1.5 rounded hover:bg-gray-200 flex items-center gap-2"
-              >
-                <span className={`text-xs font-medium ${methodColors[req.method]}`}>
-                  {req.method}
-                </span>
-                <span className="flex-1 text-sm truncate text-gray-700">
-                  {req.nombre || req.url}
-                </span>
-              </button>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setMenuOpenId(menuOpenId === req.id ? null : req.id);
-                }}
-                className="absolute right-1 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 px-1 text-gray-400 hover:text-gray-600"
-              >
-                ⋮
-              </button>
-              {menuOpenId === req.id && (
-                <div className="absolute right-8 top-0 bg-white border border-gray-200 rounded shadow-lg z-10">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDuplicate(req.id);
-                    }}
-                    className="block w-full px-3 py-1.5 text-left text-sm hover:bg-gray-100"
-                  >
-                    Duplicate
-                  </button>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDelete(req.id);
-                    }}
-                    className="block w-full px-3 py-1.5 text-left text-sm text-red-600 hover:bg-red-50"
-                  >
-                    Delete
-                  </button>
-                </div>
-              )}
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  };
-
-  return (
     GET: 'text-green-600',
     POST: 'text-yellow-600',
     PUT: 'text-blue-600',
