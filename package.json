@@ -19,6 +19,7 @@
     "astro": "^6.1.8",
     "axios": "^1.15.1",
     "dexie": "^4.4.2",
+    "lucide-react": "^1.8.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-hook-form": "^7.72.1",

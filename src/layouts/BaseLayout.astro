@@ -13,35 +13,48 @@ const { title = "API Client - Mini Postman" } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Interactive API Client like Mini Postman" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <title>{title}</title>
     <script is:inline>
       (function() {
         const stored = localStorage.getItem('theme');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const isDark = stored === 'dark' || (!stored && prefersDark);
+        // Default to dark mode for Cyber-Glass aesthetic
+        const isDark = stored === 'dark' || (!stored && true); 
         if (isDark) document.documentElement.classList.add('dark');
       })();
     </script>
   </head>
-  <body class="min-h-screen flex flex-col bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
-    <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
-      <nav class="flex items-center justify-between">
-        <a href="/" class="text-xl font-bold text-indigo-600">API Client</a>
-        <div class="flex gap-6">
-          <a href="/" class="text-gray-600 hover:text-indigo-600 transition-colors">Home</a>
-          <a href="/collections" class="text-gray-600 hover:text-indigo-600 transition-colors">Collections</a>
-          <a href="/environments" class="text-gray-600 hover:text-indigo-600 transition-colors">Envs</a>
-          <a href="/settings" class="text-gray-600 hover:text-indigo-600 transition-colors">Settings</a>
+  <body class="min-h-screen flex flex-col font-sans bg-gray-50 bg-mesh-light text-gray-900 dark:bg-cyber-dark dark:bg-mesh-dark dark:text-gray-100 transition-colors duration-300">
+    <header class="sticky top-0 z-50 bg-white/70 dark:bg-cyber-surface/70 backdrop-blur-md border-b border-gray-200 dark:border-white/10 px-6 py-4 shadow-sm dark:shadow-none">
+      <nav class="flex items-center justify-between max-w-7xl mx-auto w-full">
+        <a href="/" class="text-xl font-bold bg-gradient-to-r from-indigo-500 to-emerald-400 bg-clip-text text-transparent flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          API Client
+        </a>
+        <div class="flex gap-6 items-center">
+          <a href="/" class="text-sm font-medium text-gray-600 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 transition-all">Home</a>
+          <a href="/collections" class="text-sm font-medium text-gray-600 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 transition-all">Collections</a>
+          <a href="/environments" class="text-sm font-medium text-gray-600 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 transition-all">Envs</a>
+          <a href="/settings" class="text-sm font-medium text-gray-600 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 transition-all">Settings</a>
         </div>
       </nav>
     </header>
 
-    <main class="flex-1 px-6 py-8">
+    <main class="flex-1 w-full max-w-[1600px] mx-auto flex flex-col">
       <slot />
     </main>
 
-    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 px-6 py-3 text-center text-sm text-gray-500 dark:text-gray-400">
-      <p>API Client v0.0.1 | Creado por Ignacio Ledesma | Todos los derechos reservados &copy; 2026</p>
+    <footer class="bg-white/50 dark:bg-cyber-surface/50 backdrop-blur-sm border-t border-gray-200 dark:border-white/5 px-6 py-4 text-center text-xs text-gray-500 dark:text-gray-400 transition-colors">
+      <p class="flex items-center justify-center gap-2">
+        API Client v0.0.1 
+        <span class="w-1 h-1 rounded-full bg-gray-400 dark:bg-gray-600"></span> 
+        Creado por Ignacio Ledesma 
+        <span class="w-1 h-1 rounded-full bg-gray-400 dark:bg-gray-600"></span> 
+        &copy; 2026
+      </p>
     </footer>
 
     <script>
