@@ -1,0 +1,24 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { Sidebar } from '@/components/Sidebar.tsx';
+import { RequestEditor } from '@/components/RequestEditor.tsx';
+import { ResponsePanel } from '@/components/ResponsePanel.tsx';
+---
+
+<BaseLayout title="API Client - Cyber Glass">
+  <div class="flex h-[calc(100vh-6rem)] gap-6" id="app-root">
+    <aside class="hidden md:block w-72 shrink-0 bg-white/40 dark:bg-cyber-surface/40 backdrop-blur-xl border border-gray-200 dark:border-white/10 rounded-2xl shadow-sm dark:shadow-glass overflow-hidden flex flex-col transition-all duration-300">
+      <Sidebar client:load />
+    </aside>
+
+    <div class="flex-1 flex flex-col gap-6 min-w-0">
+      <div class="bg-white/40 dark:bg-cyber-surface/40 backdrop-blur-xl border border-gray-200 dark:border-white/10 rounded-2xl shadow-sm dark:shadow-glass overflow-hidden transition-all duration-300">
+        <RequestEditor client:load />
+      </div>
+
+      <div class="flex-1 bg-white/40 dark:bg-cyber-surface/40 backdrop-blur-xl border border-gray-200 dark:border-white/10 rounded-2xl shadow-sm dark:shadow-glass overflow-hidden flex flex-col transition-all duration-300 relative">
+        <ResponsePanel client:load />
+      </div>
+    </div>
+  </div>
+</BaseLayout>

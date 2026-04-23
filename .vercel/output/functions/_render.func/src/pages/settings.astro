@@ -1,0 +1,54 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { ThemeToggle } from '@/components/ui/ThemeToggle';
+---
+
+<BaseLayout title="Settings - API Client">
+  <div class="max-w-2xl mx-auto">
+    <h1 class="text-2xl font-bold mb-6">Settings</h1>
+
+    <div class="space-y-6">
+      <div class="bg-white rounded-lg border border-gray-200 p-6">
+        <h2 class="text-lg font-semibold mb-4">Appearance</h2>
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="font-medium">Theme</p>
+            <p class="text-sm text-gray-500">Toggle between light and dark mode</p>
+          </div>
+          <ThemeToggle client:load />
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg border border-gray-200 p-6">
+        <h2 class="text-lg font-semibold mb-4">Keyboard Shortcuts</h2>
+        <div class="text-sm text-gray-500">
+          Press <kbd class="px-1 bg-gray-100 rounded">F1</kbd> to view all shortcuts
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg border border-gray-200 p-6">
+        <h2 class="text-lg font-semibold mb-4">About</h2>
+        <div class="space-y-2 text-sm">
+          <p><span class="font-medium">Version:</span> 0.0.1</p>
+          <p><span class="font-medium">Built with:</span> Astro + React + TypeScript</p>
+          <p><span class="font-medium">Storage:</span> IndexedDB (via Dexie)</p>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg border border-gray-200 p-6">
+        <h2 class="text-lg font-semibold mb-4">Data Management</h2>
+        <div class="space-y-3">
+          <button id="import-btn" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded text-sm">
+            Import Data
+          </button>
+          <button id="export-btn" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded text-sm">
+            Export All Data
+          </button>
+          <button id="clear-btn" class="px-4 py-2 bg-red-50 text-red-600 hover:bg-red-100 rounded text-sm">
+            Clear All Data
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
