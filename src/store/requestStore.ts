@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import type { Request, HttpMethod, BodyType } from '@/types/api';
-import { db } from '@/db/database';
+import { getDb } from '@/db/database';
 
 interface RequestState {
   currentRequest: Request | null;
@@ -37,29 +37,29 @@ export const useRequestStore = create<RequestState>()(
         set({ currentRequest: { ...currentRequest, [field]: value } });
       },
 
-      saveCurrentRequest: async () => {
-        const { currentRequest } = get();
-        if (!currentRequest) return;
-        set({ isLoading: true });
-        try {
-          await db.saveRequest(currentRequest);
-          set({ currentRequest: { ...currentRequest, lastUsed: new Date().toISOString() } });
-          await get().loadAllRequests();
-        } finally {
-          set({ isLoading: false });
-        }
-      },
+  saveCurrentRequest: async () => {
+    const { currentRequest } = get();
+    if (!currentRequest) return;
+    set({ isLoading: true });
+    try {
+      await getDb().saveRequest(currentRequest);
+      set({ currentRequest: { ...currentRequest, lastUsed: new Date().toISOString() } });
+      await get().loadAllRequests();
+    } finally {
+      set({ isLoading: false });
+    }
+  },
 
-      loadRequest: async (id) => {
-        set({ isLoading: true });
-        try {
-          const requests = await db.requests.toArray();
-          const request = requests.find((r) => r.id === id);
-          if (request) set({ currentRequest: request });
-        } finally {
-          set({ isLoading: false });
-        }
-      },
+  loadRequest: async (id) => {
+    set({ isLoading: true });
+    try {
+      const requests = await getDb().requests.toArray();
+      const request = requests.find((r) => r.id === id);
+      if (request) set({ currentRequest: request });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
 
       deleteRequest: async (id) => {
         set({ isLoading: true });

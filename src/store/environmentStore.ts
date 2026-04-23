@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import type { Environment } from '@/types/api';
-import { db } from '@/db/database';
+import { getDb } from '@/db/database';
 
 interface EnvironmentState {
   environments: Environment[];
@@ -28,88 +28,88 @@ export const useEnvironmentStore = create<EnvironmentState>()(
       activeEnvId: null,
       isLoading: false,
 
-      createEnv: async (nombre, variables = {}) => {
-        set({ isLoading: true });
+  createEnv: async (nombre, variables = {}) => {
+    set({ isLoading: true });
+    const newEnv: Environment = {
+      id: crypto.randomUUID(),
+      nombre,
+      variables,
+      isActive: false,
+    };
+    await getDb().saveEnvironment(newEnv);
+    await get().loadEnvironments();
+    set({ isLoading: false });
+  },
+
+  updateEnv: async (id, changes) => {
+    set({ isLoading: true });
+    const envs = await getDb().environments.toArray();
+    const env = envs.find((e) => e.id === id);
+    if (env) {
+      const updated = { ...env, ...changes };
+      await getDb().saveEnvironment(updated);
+    }
+    await get().loadEnvironments();
+    set({ isLoading: false });
+  },
+
+  deleteEnv: async (id) => {
+    set({ isLoading: true });
+    await getDb().environments.delete(id);
+    const { activeEnvId } = get();
+    if (activeEnvId === id) set({ activeEnvId: null });
+    await get().loadEnvironments();
+    set({ isLoading: false });
+  },
+
+  setActiveEnv: async (id) => {
+    if (id) await getDb().setActiveEnvironment(id);
+    set({ activeEnvId: id });
+    const envs = await getDb().environments.toArray();
+    set({
+      environments: envs.map((e) => ({ ...e, isActive: e.id === id })),
+    });
+  },
+
+  importEnvs: async (json) => {
+    set({ isLoading: true });
+    try {
+      const imported: Environment[] = JSON.parse(json);
+      for (const env of imported) {
         const newEnv: Environment = {
+          ...env,
           id: crypto.randomUUID(),
-          nombre,
-          variables,
           isActive: false,
         };
-        await db.saveEnvironment(newEnv);
-        await get().loadEnvironments();
-        set({ isLoading: false });
-      },
+        await getDb().saveEnvironment(newEnv);
+      }
+    } catch {}
+    await get().loadEnvironments();
+    set({ isLoading: false });
+  },
 
-      updateEnv: async (id, changes) => {
-        set({ isLoading: true });
-        const envs = await db.environments.toArray();
-        const env = envs.find((e) => e.id === id);
-        if (env) {
-          const updated = { ...env, ...changes };
-          await db.saveEnvironment(updated);
-        }
-        await get().loadEnvironments();
-        set({ isLoading: false });
-      },
+  exportEnvs: () => {
+    const { environments } = get();
+    return JSON.stringify(environments, null, 2);
+  },
 
-      deleteEnv: async (id) => {
-        set({ isLoading: true });
-        await db.environments.delete(id);
-        const { activeEnvId } = get();
-        if (activeEnvId === id) set({ activeEnvId: null });
-        await get().loadEnvironments();
-        set({ isLoading: false });
-      },
+  resolveVariables: (text) => {
+    const { environments, activeEnvId } = get();
+    const active = environments.find((e) => e.id === activeEnvId);
+    if (!active) return text;
+    return resolve(text, active.variables);
+  },
 
-      setActiveEnv: async (id) => {
-        if (id) await db.setActiveEnvironment(id);
-        set({ activeEnvId: id });
-        const envs = await db.environments.toArray();
-        set({
-          environments: envs.map((e) => ({ ...e, isActive: e.id === id })),
-        });
-      },
-
-      importEnvs: async (json) => {
-        set({ isLoading: true });
-        try {
-          const imported: Environment[] = JSON.parse(json);
-          for (const env of imported) {
-            const newEnv: Environment = {
-              ...env,
-              id: crypto.randomUUID(),
-              isActive: false,
-            };
-            await db.saveEnvironment(newEnv);
-          }
-        } catch {}
-        await get().loadEnvironments();
-        set({ isLoading: false });
-      },
-
-      exportEnvs: () => {
-        const { environments } = get();
-        return JSON.stringify(environments, null, 2);
-      },
-
-      resolveVariables: (text) => {
-        const { environments, activeEnvId } = get();
-        const active = environments.find((e) => e.id === activeEnvId);
-        if (!active) return text;
-        return resolve(text, active.variables);
-      },
-
-      loadEnvironments: async () => {
-        set({ isLoading: true });
-        const environments = await db.environments.toArray();
-        const active = environments.find((e) => e.isActive);
-        set({
-          environments,
-          activeEnvId: active?.id || null,
-          isLoading: false,
-        });
-      },
+  loadEnvironments: async () => {
+    set({ isLoading: true });
+    const environments = await getDb().environments.toArray();
+    const active = environments.find((e) => e.isActive);
+    set({
+      environments,
+      activeEnvId: active?.id || null,
+      isLoading: false,
+    });
+  },
     }),
     { name: 'environmentStore' }
   )

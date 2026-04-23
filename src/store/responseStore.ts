@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import type { Request, Response, HttpMethod, BodyType } from '@/types/api';
-import { db } from '@/db/database';
+import { getDb } from '@/db/database';
 
 interface ResponseState {
   currentResponse: Response | null;
@@ -81,7 +81,7 @@ export const useResponseStore = create<ResponseState>()(
             timestamp: new Date().toISOString(),
           };
 
-          await db.saveResponse(response);
+          await getDb().saveResponse(response);
           set({ currentResponse: response, isFetching: false });
           
           const { responseHistory } = get();
@@ -132,7 +132,7 @@ export const useResponseStore = create<ResponseState>()(
       },
 
       loadHistoryForRequest: async (requestId) => {
-        const responses = await db.getResponsesForRequest(requestId);
+        const responses = await getDb().getResponsesForRequest(requestId);
         set({ responseHistory: responses.sort((a, b) => 
           new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
         )});

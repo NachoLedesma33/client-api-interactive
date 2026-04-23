@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { db as apiDb, ApiDatabase } from '@/db/database';
+import { getDb } from '@/db/database';
 
 export function useDatabase() {
   const [isLoading, setIsLoading] = useState(true);

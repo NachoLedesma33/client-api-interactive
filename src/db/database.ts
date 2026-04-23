@@ -67,4 +67,12 @@ export class ApiDatabase extends Dexie {
   }
 }
 
-export const db = new ApiDatabase();
+// Lazy-initialize DB only on client side
+let dbInstance: ApiDatabase | null = null;
+
+export function getDb(): ApiDatabase {
+  if (!dbInstance) {
+    dbInstance = new ApiDatabase();
+  }
+  return dbInstance;
+}

@@ -1,5 +1,5 @@
 import type { Request, Collection, Environment, HttpMethod, BodyType } from '@/types/api';
-import { db } from '@/db/database';
+import { getDb } from '@/db/database';
 
 const DEMO_REQUESTS: Request[] = [
   {
@@ -126,7 +126,7 @@ const DEMO_ENVIRONMENTS: Environment[] = [
 export const IS_DEMO_DATA_AVAILABLE = true;
 
 export async function seedDatabase(): Promise<{ requests: number; collections: number; environments: number }> {
-  const existingRequests = await db.requests.count();
+  const existingRequests = await getDb().requests.count();
   
   if (existingRequests > 0) {
     console.log('[Seed] Database already has data, skipping seed');
@@ -134,20 +134,20 @@ export async function seedDatabase(): Promise<{ requests: number; collections: n
   }
 
   for (const request of DEMO_REQUESTS) {
-    await db.saveRequest(request);
+    await getDb().saveRequest(request);
   }
 
   for (const collection of DEMO_COLLECTIONS) {
-    await db.saveCollection(collection as Collection);
+    await getDb().saveCollection(collection as Collection);
   }
 
   for (const environment of DEMO_ENVIRONMENTS) {
-    await db.saveEnvironment(environment);
+    await getDb().saveEnvironment(environment);
   }
 
-  const requestCount = await db.requests.count();
-  const collectionCount = await db.collections.count();
-  const environmentCount = await db.environments.count();
+  const requestCount = await getDb().requests.count();
+  const collectionCount = await getDb().collections.count();
+  const environmentCount = await getDb().environments.count();
 
   console.log('[Seed] Demo data seeded successfully:', {
     requests: requestCount,
