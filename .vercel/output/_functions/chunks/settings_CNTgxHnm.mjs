@@ -1,7 +1,7 @@
-import { $ as $$BaseLayout } from './BaseLayout_Bb2y5Eli.mjs';
-import { c as createComponent } from './astro-component_DH3y3ISD.mjs';
+import { $ as $$BaseLayout } from './BaseLayout_CDTvAxEA.mjs';
+import { c as createComponent } from './astro-component_B9QXdNd9.mjs';
 import 'piccolore';
-import { l as renderComponent, r as renderTemplate, m as maybeRenderHead } from './entrypoint_C0SiE1cg.mjs';
+import { l as renderComponent, r as renderTemplate, m as maybeRenderHead } from './entrypoint_a4CxbHHH.mjs';
 import { jsx } from 'react/jsx-runtime';
 import { useState, useEffect } from 'react';
 

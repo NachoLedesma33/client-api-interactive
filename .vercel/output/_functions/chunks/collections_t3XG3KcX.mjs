@@ -1,7 +1,7 @@
-import { $ as $$BaseLayout } from './BaseLayout_Bb2y5Eli.mjs';
-import { c as createComponent } from './astro-component_DH3y3ISD.mjs';
+import { $ as $$BaseLayout } from './BaseLayout_CDTvAxEA.mjs';
+import { c as createComponent } from './astro-component_B9QXdNd9.mjs';
 import 'piccolore';
-import { l as renderComponent, r as renderTemplate, m as maybeRenderHead } from './entrypoint_C0SiE1cg.mjs';
+import { l as renderComponent, r as renderTemplate, m as maybeRenderHead } from './entrypoint_a4CxbHHH.mjs';
 
 const $$Collections = createComponent(($$result, $$props, $$slots) => {
   return renderTemplate`${renderComponent($$result, "BaseLayout", $$BaseLayout, { "title": "Collections - API Client" }, { "default": ($$result2) => renderTemplate` ${maybeRenderHead()}<div class="max-w-5xl mx-auto"> <h1 class="text-2xl font-bold mb-6">Collections</h1> ${renderComponent($$result2, "CollectionsManager", null, { "client:only": "react", "client:component-hydration": "only", "client:component-path": "@/components/CollectionsManager.tsx", "client:component-export": "default" })} </div> ` })}`;

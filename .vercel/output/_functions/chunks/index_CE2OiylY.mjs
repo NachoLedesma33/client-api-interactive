@@ -1,7 +1,7 @@
-import { $ as $$BaseLayout } from './BaseLayout_Bb2y5Eli.mjs';
-import { c as createComponent } from './astro-component_DH3y3ISD.mjs';
+import { $ as $$BaseLayout } from './BaseLayout_CDTvAxEA.mjs';
+import { c as createComponent } from './astro-component_B9QXdNd9.mjs';
 import 'piccolore';
-import { l as renderComponent, r as renderTemplate, m as maybeRenderHead } from './entrypoint_C0SiE1cg.mjs';
+import { l as renderComponent, r as renderTemplate, m as maybeRenderHead } from './entrypoint_a4CxbHHH.mjs';
 import { jsxs, jsx } from 'react/jsx-runtime';
 import { useEffect, useState } from 'react';
 import { create } from 'zustand';
@@ -60,7 +60,13 @@ class ApiDatabase extends Dexie {
     await this.environments.update(id, { isActive: true });
   }
 }
-const db = new ApiDatabase();
+let dbInstance = null;
+function getDb() {
+  if (!dbInstance) {
+    dbInstance = new ApiDatabase();
+  }
+  return dbInstance;
+}
 
 const useRequestStore = create()(
   devtools(
@@ -81,7 +87,7 @@ const useRequestStore = create()(
         if (!currentRequest) return;
         set({ isLoading: true });
         try {
-          await db.saveRequest(currentRequest);
+          await getDb().saveRequest(currentRequest);
           set({ currentRequest: { ...currentRequest, lastUsed: (/* @__PURE__ */ new Date()).toISOString() } });
           await get().loadAllRequests();
         } finally {
@@ -91,7 +97,7 @@ const useRequestStore = create()(
       loadRequest: async (id) => {
         set({ isLoading: true });
         try {
-          const requests = await db.requests.toArray();
+          const requests = await getDb().requests.toArray();
           const request = requests.find((r) => r.id === id);
           if (request) set({ currentRequest: request });
         } finally {
@@ -151,29 +157,29 @@ const useCollectionStore = create()(
           createdAt: (/* @__PURE__ */ new Date()).toISOString(),
           updatedAt: (/* @__PURE__ */ new Date()).toISOString()
         };
-        await db.saveCollection(newCollection);
+        await getDb().saveCollection(newCollection);
         await get().loadCollections();
         set({ isLoading: false });
       },
       updateCollection: async (id, changes) => {
         set({ isLoading: true });
-        const collections = await db.getCollections();
+        const collections = await getDb().getCollections();
         const collection = collections.find((c) => c.id === id);
         if (collection) {
           const updated = { ...collection, ...changes, updatedAt: (/* @__PURE__ */ new Date()).toISOString() };
-          await db.saveCollection(updated);
+          await getDb().saveCollection(updated);
         }
         await get().loadCollections();
         set({ isLoading: false });
       },
       deleteCollection: async (id) => {
         set({ isLoading: true });
-        await db.collections.delete(id);
+        await getDb().collections.delete(id);
         await get().loadCollections();
         set({ isLoading: false });
       },
       duplicateCollection: async (id) => {
-        const collections = await db.getCollections();
+        const collections = await getDb().getCollections();
         const original = collections.find((c) => c.id === id);
         if (!original) return;
         const newCollection = {
@@ -184,11 +190,11 @@ const useCollectionStore = create()(
           createdAt: (/* @__PURE__ */ new Date()).toISOString(),
           updatedAt: (/* @__PURE__ */ new Date()).toISOString()
         };
-        await db.saveCollection(newCollection);
+        await getDb().saveCollection(newCollection);
         await get().loadCollections();
       },
       addRequestToCollection: async (colId, reqId) => {
-        const collections = await db.getCollections();
+        const collections = await getDb().getCollections();
         const collection = collections.find((c) => c.id === colId);
         if (!collection || collection.requests.includes(reqId)) return;
         const updated = {
@@ -196,11 +202,11 @@ const useCollectionStore = create()(
           requests: [...collection.requests, reqId],
           updatedAt: (/* @__PURE__ */ new Date()).toISOString()
         };
-        await db.saveCollection(updated);
+        await getDb().saveCollection(updated);
         await get().loadCollections();
       },
       removeRequestFromCollection: async (colId, reqId) => {
-        const collections = await db.getCollections();
+        const collections = await getDb().getCollections();
         const collection = collections.find((c) => c.id === colId);
         if (!collection) return;
         const updated = {
@@ -208,12 +214,12 @@ const useCollectionStore = create()(
           requests: collection.requests.filter((r) => r !== reqId),
           updatedAt: (/* @__PURE__ */ new Date()).toISOString()
         };
-        await db.saveCollection(updated);
+        await getDb().saveCollection(updated);
         await get().loadCollections();
       },
       loadCollections: async () => {
         set({ isLoading: true });
-        const collections = await db.getCollections();
+        const collections = await getDb().getCollections();
         set({ collections, isLoading: false });
       }
     }),
@@ -303,7 +309,7 @@ const useResponseStore = create()(
             duration,
             timestamp: (/* @__PURE__ */ new Date()).toISOString()
           };
-          await db.saveResponse(response);
+          await getDb().saveResponse(response);
           set({ currentResponse: response, isFetching: false });
           const { responseHistory } = get();
           set({ responseHistory: [response, ...responseHistory].slice(0, 100) });
@@ -344,7 +350,7 @@ const useResponseStore = create()(
         return { statusDiff, bodyDiff, headersDiff };
       },
       loadHistoryForRequest: async (requestId) => {
-        const responses = await db.getResponsesForRequest(requestId);
+        const responses = await getDb().getResponsesForRequest(requestId);
         set({ responseHistory: responses.sort(
           (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
         ) });
@@ -385,33 +391,33 @@ const useEnvironmentStore = create()(
           variables,
           isActive: false
         };
-        await db.saveEnvironment(newEnv);
+        await getDb().saveEnvironment(newEnv);
         await get().loadEnvironments();
         set({ isLoading: false });
       },
       updateEnv: async (id, changes) => {
         set({ isLoading: true });
-        const envs = await db.environments.toArray();
+        const envs = await getDb().environments.toArray();
         const env = envs.find((e) => e.id === id);
         if (env) {
           const updated = { ...env, ...changes };
-          await db.saveEnvironment(updated);
+          await getDb().saveEnvironment(updated);
         }
         await get().loadEnvironments();
         set({ isLoading: false });
       },
       deleteEnv: async (id) => {
         set({ isLoading: true });
-        await db.environments.delete(id);
+        await getDb().environments.delete(id);
         const { activeEnvId } = get();
         if (activeEnvId === id) set({ activeEnvId: null });
         await get().loadEnvironments();
         set({ isLoading: false });
       },
       setActiveEnv: async (id) => {
-        if (id) await db.setActiveEnvironment(id);
+        if (id) await getDb().setActiveEnvironment(id);
         set({ activeEnvId: id });
-        const envs = await db.environments.toArray();
+        const envs = await getDb().environments.toArray();
         set({
           environments: envs.map((e) => ({ ...e, isActive: e.id === id }))
         });
@@ -426,7 +432,7 @@ const useEnvironmentStore = create()(
               id: crypto.randomUUID(),
               isActive: false
             };
-            await db.saveEnvironment(newEnv);
+            await getDb().saveEnvironment(newEnv);
           }
         } catch {
         }
@@ -445,7 +451,7 @@ const useEnvironmentStore = create()(
       },
       loadEnvironments: async () => {
         set({ isLoading: true });
-        const environments = await db.environments.toArray();
+        const environments = await getDb().environments.toArray();
         const active = environments.find((e) => e.isActive);
         set({
           environments,
