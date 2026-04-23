@@ -6,7 +6,7 @@ import tailwind from "@astrojs/tailwind";
 
 // https://astro.build/config
 export default defineConfig({
-  output: "server",
+  output: "static",
   adapter: vercel(),
   integrations: [react(), tailwind()],
   compressHTML: true,
@@ -21,7 +21,7 @@ export default defineConfig({
       },
     },
     optimizeDeps: {
-      include: ["react", "react-dom", "zustand", "dexie", "react-hook-form"],
+      include: ["react", "react-dom", "zustand", "react-hook-form"],
     },
     build: {
       cssMinify: true,
