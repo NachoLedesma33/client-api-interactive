@@ -168,3 +168,5 @@ export function EnvironmentsManager() {
     </div>
   );
 }
+
+export default EnvironmentsManager;

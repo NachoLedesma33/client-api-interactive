@@ -115,3 +115,5 @@ export function CollectionsManager() {
     </div>
   );
 }
+
+export default CollectionsManager;
